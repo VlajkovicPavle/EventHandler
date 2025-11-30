@@ -1,11 +1,19 @@
 {
-	"devDependencies": {
-		"@types/jest": "^30.0.0",
-		"jest": "^30.2.0",
-		"prettier": "^3.7.3",
-		"ts-jest": "^29.4.5"
-	},
-	"dependencies": {
-		"eslint": "^9.39.1"
-	}
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write .",
+    "check": "pnpm lint && pnpm format && pnpm test"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jest": "^29.2.1",
+    "prettier": "^3.7.3",
+    "vitest": "^4.0.14"
+  },
+  "dependencies": {
+    "eslint": "^9.39.1"
+  }
 }

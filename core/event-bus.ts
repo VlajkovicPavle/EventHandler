@@ -30,7 +30,7 @@ export class EventBus<TEventMap extends Record<string, any>> {
     this._handlers.set(event, filtered);
   }
 
-  unsubscribeALl<K extends keyof TEventMap>(event: K) {
+  unsubscribeAll<K extends keyof TEventMap>(event: K) {
     return this._handlers.delete(event);
   }
 

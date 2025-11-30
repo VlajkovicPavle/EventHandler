@@ -53,4 +53,43 @@ describe("EventBus", () => {
     bus.publish("test:1", {});
     expect(handler).toHaveBeenCalledTimes(2);
   });
+
+  it("should unsubscribe when handler exists", () => {
+    const handler = vi.fn();
+    const event = "test:1";
+    bus.subscribe(event, handler);
+    bus.unsubscribe(event, handler);
+    bus.publish(event, {});
+    expect(handler).not.toHaveBeenCalled();
+  });
+
+  it("should throw when unsubscribing with event missing", () => {
+    expect(() => bus.unsubscribe("test:1", vi.fn())).toThrowError(
+      "[EventBus] - Event not found",
+    );
+  });
+
+  it("should throw when unsubscribing with missing handler", () => {
+    bus.subscribe("test:1", () => vi.fn());
+    expect(() => bus.unsubscribe("test:1", vi.fn())).toThrowError(
+      "[EventBus] - Handler not found",
+    );
+  });
+
+  it("should unsubscribe all handlers of event", () => {
+    const handlers = Array.from({ length: 3 }, () => vi.fn());
+    const testEvent = "test:1";
+    handlers.forEach((handler) => {
+      bus.subscribe(testEvent, handler);
+    });
+    expect(bus.unsubscribeALl(testEvent)).toBe(true);
+    bus.publish(testEvent, {});
+    handlers.forEach((handler) => {
+      expect(handler).not.toHaveBeenCalled();
+    });
+  });
+
+  it("should return false when unsubscribing all with missing event", () => {
+    expect(bus.unsubscribeALl("test:1")).toBe(false);
+  });
 });
